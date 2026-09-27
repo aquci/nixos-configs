@@ -21,6 +21,12 @@
   dockerCompat = true;
   };
 
+  services.ollama = {
+  enable = true;
+  package = pkgs.ollama-cuda;
+};
+  services.flatpak.enable = true;
+
   services.udev.extraRules = ''
     KERNEL=="hidraw*", SUBSYSTEM=="hidraw", ATTRS{idVendor}=="feed", ATTRS{idProduct}=="0000", TAG+="uaccess", MODE="0660"
   '';
