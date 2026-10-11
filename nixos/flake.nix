@@ -47,14 +47,11 @@
 
           home-manager.nixosModules.home-manager
 
-          # AAGL module
           aagl.nixosModules.default
 
           {
-            # Cachix для готовых бинарных пакетов AAGL
             nix.settings = aagl.nixConfig;
 
-            # ВКЛЮЧАЕМ ТОЛЬКО GENSHIN LAUNCHER
             programs.anime-game-launcher.enable = true;
 
             environment.systemPackages = [
