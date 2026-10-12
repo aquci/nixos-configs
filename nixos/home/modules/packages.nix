@@ -33,7 +33,6 @@
     pavucontrol
     rofi
     slurp
-    spotify
     starship
     telegram-desktop
     tor-browser

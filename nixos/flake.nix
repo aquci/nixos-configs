@@ -23,6 +23,11 @@
       url = "github:ezKEa/aagl-gtk-on-nix";
       inputs.nixpkgs.follows = "nixpkgs";
     };
+
+    spicetify-nix = {
+  url = "github:Gerg-L/spicetify-nix";
+  inputs.nixpkgs.follows = "nixpkgs";
+};
   };
 
   outputs = {
@@ -32,6 +37,7 @@
     zen-browser,
     thorium,
     aagl,
+    spicetify-nix,
     ...
   }:
     let
@@ -46,10 +52,30 @@
           ./hardware-configuration.nix
 
           home-manager.nixosModules.home-manager
-
           aagl.nixosModules.default
+          spicetify-nix.nixosModules.default
 
           {
+
+programs.spicetify = let
+  spicePkgs = spicetify-nix.legacyPackages.${system};
+in {
+  enable = true;
+
+  enabledCustomApps = with spicePkgs.apps; [
+    marketplace
+    lyricsPlus
+  ];
+
+  enabledExtensions = with spicePkgs.extensions; [
+    hidePodcasts
+    adblockify
+  ];
+
+  theme = spicePkgs.themes.catppuccin;
+  colorScheme = "mocha";
+};
+
             nix.settings = aagl.nixConfig;
 
             programs.anime-game-launcher.enable = true;
