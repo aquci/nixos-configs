@@ -25,9 +25,9 @@
     };
 
     spicetify-nix = {
-  url = "github:Gerg-L/spicetify-nix";
-  inputs.nixpkgs.follows = "nixpkgs";
-};
+      url = "github:Gerg-L/spicetify-nix";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
   };
 
   outputs = {
@@ -56,25 +56,26 @@
           spicetify-nix.nixosModules.default
 
           {
+            programs.spicetify =
+              let
+                spicePkgs = spicetify-nix.legacyPackages.${system};
+              in
+              {
+                enable = true;
 
-programs.spicetify = let
-  spicePkgs = spicetify-nix.legacyPackages.${system};
-in {
-  enable = true;
+                enabledCustomApps = with spicePkgs.apps; [
+                  marketplace
+                  lyricsPlus
+                ];
 
-  enabledCustomApps = with spicePkgs.apps; [
-    marketplace
-    lyricsPlus
-  ];
+                enabledExtensions = with spicePkgs.extensions; [
+                  hidePodcasts
+                  adblockify
+                ];
 
-  enabledExtensions = with spicePkgs.extensions; [
-    hidePodcasts
-    adblockify
-  ];
-
-  theme = spicePkgs.themes.catppuccin;
-  colorScheme = "mocha";
-};
+                theme = spicePkgs.themes.catppuccin;
+                colorScheme = "mocha";
+              };
 
             nix.settings = aagl.nixConfig;
 
