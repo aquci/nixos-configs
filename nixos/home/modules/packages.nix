@@ -26,6 +26,7 @@
     lavat
     localsend
     nano
+    ncdu
     nemo
     neovim
     obsidian
